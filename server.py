@@ -2,7 +2,6 @@
 import requests
 import http.server
 
-patterns = ["uis", "lus", "lys"]
 address='https://api.telegram.org/bot234875332:AAEtMhP4y8s4MhD68iCbznBTdRqYbo8rroI'
 
    

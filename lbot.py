@@ -1,6 +1,7 @@
 #!python
 results = []
 
+patterns = ["uis", "lus", "lys"]
 FILE_NAME = "wordlist.txt"
 NAME = "LUIS"
 
