@@ -1,26 +1,26 @@
 #!python
-
-patterns = ["uis", "lus", "lys"]
-
 results = []
 
 FILE_NAME = "wordlist.txt"
 NAME = "LUIS"
 
+#Check if the word is luizable.
+#If yes, luize it 
 def luisize(word):
-  word = word.lower()
+    word = word.lower()
   new_word = word
   for pat in patterns:
-    new_word = new_word.replace(pat, NAME)
+      new_word = new_word.replace(pat, NAME)
   if new_word != word:
-    return new_word
+      return new_word
 
-def main():
+def getLuisWord():
 
   global results
-
+  
   with open(FILE_NAME, "r") as f:
     results = [luisize(line) for line in f if luisize(line)]
 
-if __name__ == "__main__":
-  main()
+  #debugging purposes
+  return resullts[0]
+
