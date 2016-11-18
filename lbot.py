@@ -1,0 +1,1 @@
+patterns = ['uis', 'lus', 'lys']
