@@ -1,4 +1,5 @@
 #!python
+import random
 results = []
 
 patterns = ["uis", "lus", "lys"]
@@ -8,7 +9,7 @@ NAME = "LUIS"
 #Check if the word is luizable.
 #If yes, luize it 
 def luisize(word):
-    word = word.lower()
+  word = word.lower()
   new_word = word
   for pat in patterns:
       new_word = new_word.replace(pat, NAME)
@@ -19,9 +20,11 @@ def getLuisWord():
 
   global results
   
-  with open(FILE_NAME, "r") as f:
+  with open(FILE_NAME, "r", encoding = "ISO-8859-1") as f:
     results = [luisize(line) for line in f if luisize(line)]
 
   #debugging purposes
-  return resullts[0]
+  random.seed()
+  rand = random.randrange(len(results))
+  return results[rand]
 
