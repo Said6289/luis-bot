@@ -2,24 +2,25 @@
 
 patterns = ["uis", "lus", "lys"]
 
+results = []
+
 FILE_NAME = "wordlist.txt"
 NAME = "LUIS"
 
 def luisize(word):
-  words = []
+  word = word.lower()
+  new_word = word
   for pat in patterns:
-    new_word = word.replace(pat, NAME)
-    if new_word != word:
-      words.append(new_word)
-  return words
+    new_word = new_word.replace(pat, NAME)
+  if new_word != word:
+    return new_word
 
 def main():
-  with open(FILE_NAME, "r") as f:
-    results = [line for line in f for substr in patterns if substr in line]
 
-  for r in results:
-    for a in luisize(r):
-      print(a)
+  global results
+
+  with open(FILE_NAME, "r") as f:
+    results = [luisize(line) for line in f if luisize(line)]
 
 if __name__ == "__main__":
   main()
