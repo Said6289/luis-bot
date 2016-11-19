@@ -1,29 +1,27 @@
-#!python
+# This file should probably be renamed
+
 import random
-results = []
 
 patterns = ["uis", "lus", "lys"]
 FILE_NAME = "wordlist.txt"
-NAME = "LUIS"
+NAME = "luis"
 
-#Check if the word is luizable.
-#If yes, luize it 
+# Check if the word is luizable.
+# If yes, luize it 
 def luisize(word):
-  word = word.lower()
   new_word = word
   for pat in patterns:
       new_word = new_word.replace(pat, NAME)
-  if new_word != word:
+  if new_word.lower() != word.lower():
       return new_word
 
 def getLuisWord():
+  results = []
 
-  global results
-  
-  with open(FILE_NAME, "r", encoding = "ISO-8859-1") as f:
+  with open(FILE_NAME, "r") as f:
     results = [luisize(line) for line in f if luisize(line)]
 
-  #debugging purposes
+  # For dbugging purposes
   random.seed()
   rand = random.randrange(len(results))
   return results[rand]
