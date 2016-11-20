@@ -5,8 +5,10 @@ import requests
 import lbot
 
 INITIAL_ID = 263969345
-ADDRESS='https://api.telegram.org/bot234875332:AAEtMhP4y8s4MhD68iCbznBTdRqYbo8rroI/'
+ADDRESS = 'https://api.telegram.org/bot234875332:AAEtMhP4y8s4MhD68iCbznBTdRqYbo8rroI/'
 MAX_UPDATES = 10
+BOT_USERNAME = 'KleinLuisBot'
+NEW_MEMBER_MESSAGE = 'Hi. I\'m a bot that makes fun of Luis. Send the command /luis and I\'ll make fun of him.'
 
 class Message:
     # Minimum necessary parameters are text and chat_id
@@ -68,13 +70,11 @@ class LuisBot:
         
           if text == '/luis':
             print('   Text contains a valid command: ' + text + '. Sending response...')
-        
-            luis_message = Message(lbot.getLuisWord(), chat_id)
-            json_response = sendMessage(luis_message)
-        
-            if 'ok' in json_response.keys():
-              if json_response['ok'] is True:
-                print('   Response sent successfully: ' + luis_message.text)
+            sendMessage(Message(lbot.getLuisWord(), chat_id))
+
+        elif 'new_chat_member' in keys:
+          if message['new_chat_member']['username'] == BOT_USERNAME:
+            sendMessage(Message(NEW_MEMBER_MESSAGE, chat_id))
 
 
   def getUpdates(self):
@@ -92,7 +92,12 @@ class LuisBot:
 def sendMessage(message):
   arguments = message.toDict()
   arguments['parse_mode'] = 'HTML'
-  return sendReq('sendMessage', arguments)
+
+  json_response = sendReq('sendMessage', arguments)
+  
+  if 'ok' in json_response.keys():
+    if json_response['ok'] is True:
+      print('   Response sent successfully: ' + message.text)
 
 # This method is outside of the class for now,
 # since it's a generic request to the Telegram Bot API
