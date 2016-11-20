@@ -4,7 +4,7 @@ import random
 
 patterns = ["uis", "lus", "lys"]
 FILE_NAME = "wordlist.txt"
-NAME = "luis"
+NAME = "<i>luis</i>"
 
 # Check if the word is luizable.
 # If yes, luize it 
