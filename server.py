@@ -31,6 +31,7 @@ class LuisBot:
     # Forever
     while True:
       incoming_updates = self.getUpdates()
+      
       for update in incoming_updates:
         self.processUpdate(update)
   
@@ -56,15 +57,21 @@ class LuisBot:
 
     if 'chat' in keys:
       chat = message['chat']
+      
       if 'id' in chat.keys():
         chat_id = chat['id']
+        
         if 'text' in keys:
           text = message['text']
+        
           print('  Message is a text message: ' + message['text'])
+        
           if text == '/luis':
             print('   Text contains a valid command: ' + text + '. Sending response...')
+        
             luis_message = Message(lbot.getLuisWord(), chat_id)
-            json_response = sendReq('sendMessage', luis_message.toDict())
+            json_response = sendMessage(luis_message)
+        
             if 'ok' in json_response.keys():
               if json_response['ok'] is True:
                 print('   Response sent successfully: ' + luis_message.text)
@@ -82,9 +89,18 @@ class LuisBot:
 
     return None
 
+def sendMessage(message):
+  arguments = message.toDict()
+  arguments['parse_mode'] = 'HTML'
+  return sendReq('sendMessage', arguments)
+
 # This method is outside of the class for now,
 # since it's a generic request to the Telegram Bot API
 # The response is converted to a JSON object because
 # all Telegram Bot API responses are in JSON format
 def sendReq(command, arguments):
-  return requests.get(ADDRESS + command, params=arguments).json()
+  while True:
+    try:
+      return requests.get(ADDRESS + command, params=arguments).json()
+    except requests.exceptions.RequestException:
+      pass
