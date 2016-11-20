@@ -18,7 +18,7 @@ def luisize(word):
 def getLuisWord():
   results = []
 
-  with open(FILE_NAME, "r") as f:
+  with open(FILE_NAME, "r", encoding="utf-8") as f:
     results = [luisize(line) for line in f if luisize(line)]
 
   # For dbugging purposes
