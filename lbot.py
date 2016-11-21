@@ -2,7 +2,7 @@
 
 import random
 
-patterns = ["uis", "lus", "lys", "liz"]
+patterns = ["uis", "lus", "lys", "liz", "loes", "lues"]
 FILE_NAME = "wordlist.txt"
 NAME = "<i>luis</i>"
 

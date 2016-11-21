@@ -74,8 +74,9 @@ class LuisBot:
             sendMessage(Message(lbot.getLuisWord(), chat_id))
 
         elif 'new_chat_member' in keys:
-          if message['new_chat_member']['username'] == BOT_USERNAME:
-            sendMessage(Message(NEW_MEMBER_MESSAGE, chat_id))
+          if 'username' in message['new_chat_member']:
+            if message['new_chat_member']['username'] == BOT_USERNAME:
+              sendMessage(Message(NEW_MEMBER_MESSAGE, chat_id))
 
 
   def getUpdates(self):
