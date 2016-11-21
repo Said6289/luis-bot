@@ -5,6 +5,7 @@ import requests
 import lbot
 
 INITIAL_ID = 263969345
+LONG_POLLING_TIMEOUT = 60
 ADDRESS = 'https://api.telegram.org/bot234875332:AAEtMhP4y8s4MhD68iCbznBTdRqYbo8rroI/'
 MAX_UPDATES = 10
 BOT_USERNAME = 'KleinLuisBot'
@@ -78,9 +79,11 @@ class LuisBot:
 
 
   def getUpdates(self):
-    arguments = {'offset': self.last_id + 1, 'limit' : MAX_UPDATES}
+    arguments = {'offset': self.last_id + 1, 'limit': MAX_UPDATES, 'timeout': LONG_POLLING_TIMEOUT}
 
-    json_response = sendReq('getUpdates', arguments)
+    # 1.5 * LONG_POLLING_TIMEOUT so that the respone
+    # from the server has time to reach us
+    json_response = sendReq('getUpdates', arguments, 1.5 * LONG_POLLING_TIMEOUT)
 
     if 'ok' in json_response.keys():
       if json_response['ok'] is True:
@@ -103,9 +106,9 @@ def sendMessage(message):
 # since it's a generic request to the Telegram Bot API
 # The response is converted to a JSON object because
 # all Telegram Bot API responses are in JSON format
-def sendReq(command, arguments):
+def sendReq(command, arguments, timeout=None):
   while True:
     try:
-      return requests.get(ADDRESS + command, params=arguments).json()
+      return requests.get(ADDRESS + command, params=arguments, timeout=timeout).json()
     except requests.exceptions.RequestException:
       pass
