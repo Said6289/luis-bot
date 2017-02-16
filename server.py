@@ -69,7 +69,7 @@ class LuisBot:
         
           print('  Message is a text message: ' + message['text'])
         
-          if text == '/luis':
+          if '/luis' in text:
             print('   Text contains a valid command: ' + text + '. Sending response...')
             sendMessage(Message(lbot.getLuisWord(), chat_id))
 
